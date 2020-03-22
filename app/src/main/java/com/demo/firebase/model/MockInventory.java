@@ -52,6 +52,16 @@ public class MockInventory implements Inventory {
         return PRODUCT_MAP.get(id);
     }
 
+    public Product getProductByName(String name) {
+        for(Product product : PRODUCT_MAP.values()) {
+            if(product.name.replaceAll("\\s+", "").equalsIgnoreCase(name)) {
+                return product;
+            }
+        }
+
+        return null;
+    }
+
     private static void addProduct(int id, String name, Category category, double price, int imageId) {
         Product product = new Product(id, name, category, price, imageId);
         PRODUCT_MAP.put(product.id, product);
