@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 
+import com.demo.firebaseproject.R;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -17,7 +18,6 @@ import com.google.gson.reflect.TypeToken;
 
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,6 +81,7 @@ public class ConversionData {
     private void processGoogleAttribution(Activity context, Integer adGroupId,
                                           ConversionDataCallback callback) {
         FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
         mFirebaseRemoteConfig.fetchAndActivate()
                 .addOnCompleteListener(context, task -> {
                     if (task.isSuccessful()) {
