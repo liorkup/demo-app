@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.demo.firebaseproject.R;
+import com.demo.firebaseproject.googleads.ConversionData;
 import com.demo.firebaseproject.model.MockInventory;
 import com.demo.firebaseproject.model.Product;
 import com.demo.firebaseproject.model.Section;
 
 import java.util.Collection;
 
-import static android.widget.LinearLayout.HORIZONTAL;
 import static com.demo.firebaseproject.model.Section.NEW_ARRIVAL;
 import static com.demo.firebaseproject.model.Section.RECOMMENDATION;
 
