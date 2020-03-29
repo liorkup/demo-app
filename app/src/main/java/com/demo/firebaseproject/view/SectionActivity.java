@@ -1,4 +1,4 @@
-package com.demo.firebase.view;
+package com.demo.firebaseproject.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.demo.firebase.R;
-import com.demo.firebase.model.MockInventory;
-import com.demo.firebase.model.Product;
-import com.demo.firebase.model.Section;
+import com.demo.firebaseproject.R;
+import com.demo.firebaseproject.model.MockInventory;
+import com.demo.firebaseproject.model.Product;
+import com.demo.firebaseproject.model.Section;
 
 import java.util.Collection;
 

@@ -1,4 +1,4 @@
-package com.demo.firebase.view;
+package com.demo.firebaseproject.view;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.demo.firebase.R;
-import com.demo.firebase.model.Product;
+import com.demo.firebaseproject.R;
+import com.demo.firebaseproject.model.Product;
 
 import java.util.ArrayList;
 import java.util.Collection;

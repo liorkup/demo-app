@@ -1,4 +1,4 @@
-package com.demo.firebase.model;
+package com.demo.firebaseproject.model;
 
 import java.text.NumberFormat;
 import java.util.Locale;

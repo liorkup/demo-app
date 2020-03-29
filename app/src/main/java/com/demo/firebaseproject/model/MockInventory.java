@@ -1,6 +1,6 @@
-package com.demo.firebase.model;
+package com.demo.firebaseproject.model;
 
-import com.demo.firebase.R;
+import com.demo.firebaseproject.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.demo.firebase.model.Category.ACCESSORIES;
-import static com.demo.firebase.model.Category.APPAREL;
-import static com.demo.firebase.model.Category.HEADWEAR;
-import static com.demo.firebase.model.Category.OFFICE;
-import static com.demo.firebase.model.Section.BEST_SELLER;
-import static com.demo.firebase.model.Section.NEW_ARRIVAL;
-import static com.demo.firebase.model.Section.RECOMMENDATION;
+import static com.demo.firebaseproject.model.Category.ACCESSORIES;
+import static com.demo.firebaseproject.model.Category.APPAREL;
+import static com.demo.firebaseproject.model.Category.HEADWEAR;
+import static com.demo.firebaseproject.model.Category.OFFICE;
+import static com.demo.firebaseproject.model.Section.BEST_SELLER;
+import static com.demo.firebaseproject.model.Section.NEW_ARRIVAL;
+import static com.demo.firebaseproject.model.Section.RECOMMENDATION;
 
 public class MockInventory implements Inventory {
 
@@ -50,6 +50,16 @@ public class MockInventory implements Inventory {
 
     public Product getProductById(int id) {
         return PRODUCT_MAP.get(id);
+    }
+
+    public Product getProductByName(String name) {
+        for(Product product : PRODUCT_MAP.values()) {
+            if(product.name.replaceAll("\\s+", "").equalsIgnoreCase(name)) {
+                return product;
+            }
+        }
+
+        return null;
     }
 
     private static void addProduct(int id, String name, Category category, double price, int imageId) {

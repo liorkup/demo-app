@@ -1,4 +1,4 @@
-package com.demo.firebase.view;
+package com.demo.firebaseproject.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;

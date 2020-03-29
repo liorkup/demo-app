@@ -1,4 +1,4 @@
-package com.demo.firebase.view;
+package com.demo.firebaseproject.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.demo.firebase.R;
-import com.demo.firebase.model.Cart;
-import com.demo.firebase.model.Product;
+import com.demo.firebaseproject.R;
+import com.demo.firebaseproject.model.Cart;
+import com.demo.firebaseproject.model.Product;
 
 public class CartItemAdapter extends RecyclerView.Adapter {
 

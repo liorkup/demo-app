@@ -1,4 +1,4 @@
-package com.demo.firebase.view;
+package com.demo.firebaseproject.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,16 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.demo.firebase.R;
-import com.demo.firebase.model.MockInventory;
-import com.demo.firebase.model.Product;
-import com.demo.firebase.model.Section;
+import com.demo.firebaseproject.R;
+import com.demo.firebaseproject.model.MockInventory;
+import com.demo.firebaseproject.model.Product;
+import com.demo.firebaseproject.model.Section;
 
 import java.util.Collection;
 
 import static android.widget.LinearLayout.HORIZONTAL;
-import static com.demo.firebase.model.Section.NEW_ARRIVAL;
-import static com.demo.firebase.model.Section.RECOMMENDATION;
+import static com.demo.firebaseproject.model.Section.NEW_ARRIVAL;
+import static com.demo.firebaseproject.model.Section.RECOMMENDATION;
 
 public class MainActivity extends AppCompatActivity {
 

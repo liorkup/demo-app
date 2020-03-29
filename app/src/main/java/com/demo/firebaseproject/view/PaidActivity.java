@@ -1,11 +1,11 @@
-package com.demo.firebase.view;
+package com.demo.firebaseproject.view;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.demo.firebase.R;
+import com.demo.firebaseproject.R;
 
 public class PaidActivity extends AppCompatActivity {
 

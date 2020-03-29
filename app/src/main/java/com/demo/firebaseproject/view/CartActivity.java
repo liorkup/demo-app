@@ -1,4 +1,4 @@
-package com.demo.firebase.view;
+package com.demo.firebaseproject.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.demo.firebase.R;
-import com.demo.firebase.model.Cart;
+import com.demo.firebaseproject.R;
+import com.demo.firebaseproject.model.Cart;
 
 public class CartActivity extends AppCompatActivity {
 

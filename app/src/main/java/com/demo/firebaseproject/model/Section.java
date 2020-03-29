@@ -1,4 +1,4 @@
-package com.demo.firebase.model;
+package com.demo.firebaseproject.model;
 
 public enum Section {
 
