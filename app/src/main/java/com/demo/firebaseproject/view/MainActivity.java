@@ -1,13 +1,13 @@
 package com.demo.firebaseproject.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static android.widget.LinearLayout.HORIZONTAL;
 import static com.demo.firebaseproject.model.Section.NEW_ARRIVAL;
 import static com.demo.firebaseproject.model.Section.RECOMMENDATION;
 
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Activity context = this;
         RecyclerView newArrivalView = findViewById(R.id.new_arrivals_view);
         renderProducts(NEW_ARRIVAL, newArrivalView);
         RecyclerView recommendView = findViewById(R.id.recommendation_view);
@@ -54,25 +53,21 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
-        mFirebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener((Activity) context, task -> {
+        mFirebaseRemoteConfig.fetch(0)
+                .addOnCompleteListener(context, task -> {
                     if (task.isSuccessful()) {
-                        Boolean updated = task.getResult();
-                        Log.d(TAG, "Config params updated: " + updated);
-                        Toast.makeText(MainActivity.this, "Fetch and activate succeeded",
-                                Toast.LENGTH_SHORT).show();
-
-                        for(String rcKey : PREDICTIONS_KEYS) {
-                            String pEvent = mFirebaseRemoteConfig.getString(rcKey);
-                            if(!pEvent.isEmpty()) {
-                                Log.d(TAG, "Remote Config key: " + rcKey + "; pEvent name: " + pEvent);
-                                mFirebaseAnalytics.logEvent(pEvent, new Bundle());
+                        mFirebaseRemoteConfig.activate().addOnSuccessListener(context, result -> {
+                            Log.d(TAG, "Config params updated");
+                            for(String rcKey : PREDICTIONS_KEYS) {
+                                String pEvent = mFirebaseRemoteConfig.getString(rcKey);
+                                if(!pEvent.isEmpty()) {
+                                    Log.d(TAG, "Remote Config key: " + rcKey + "; pEvent name: " + pEvent);
+                                    mFirebaseAnalytics.logEvent(pEvent, new Bundle());
+                                }
                             }
-                        }
-
+                        });
                     } else {
-                        Toast.makeText(MainActivity.this, "Fetch failed",
-                                Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Remote Config update failed");
                     }
 
                 });
@@ -92,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void renderProducts(Section section, RecyclerView view) {
-        view.setLayoutManager(new LinearLayoutManager(this, HORIZONTAL, false));
+        view.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         Collection<Product> products = new MockInventory().productsForSection(section);
         ProductListAdapter adapter = new ProductListAdapter(products, R.layout.product_as_icons);
         view.setAdapter(adapter);
