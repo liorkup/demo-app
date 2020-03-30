@@ -19,6 +19,7 @@ import com.demo.firebaseproject.model.Product;
 import com.demo.firebaseproject.model.Section;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,12 +53,16 @@ public class MainActivity extends AppCompatActivity {
         renderProducts(RECOMMENDATION, recommendView);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        mFirebaseRemoteConfig.setConfigSettingsAsync(
+                new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(4)
+                .build());
         mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
-        mFirebaseRemoteConfig.fetch(0)
+        mFirebaseRemoteConfig.fetchAndActivate()
                 .addOnCompleteListener(context, task -> {
                     if (task.isSuccessful()) {
-                        mFirebaseRemoteConfig.activate().addOnSuccessListener(context, result -> {
-                            Log.d(TAG, "Config params updated");
+                            Boolean result = task.getResult();
+                            Log.d(TAG, "Config params updated: " + result);
                             for(String rcKey : PREDICTIONS_KEYS) {
                                 String pEvent = mFirebaseRemoteConfig.getString(rcKey);
                                 if(!pEvent.isEmpty()) {
@@ -65,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                                     mFirebaseAnalytics.logEvent(pEvent, new Bundle());
                                 }
                             }
-                        });
                     } else {
                         Log.d(TAG, "Remote Config update failed");
                     }
