@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.demo.firebaseproject.R;
-import com.demo.firebaseproject.googleads.ConversionData;
+import com.demo.firebaseproject.googleads.GoogleAdsACService;
 import com.demo.firebaseproject.model.MockInventory;
 import com.demo.firebaseproject.model.Product;
 import com.demo.firebaseproject.model.Section;
@@ -27,8 +27,8 @@ import static com.demo.firebaseproject.model.Section.RECOMMENDATION;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String FIRST_OPEN = "FIRST_OPEN";
-    private SharedPreferences prefs = null;
-
+    private static final String FIRST_OPEN_KEY = "FIRST_OPEN_ACTION";
+    private static SharedPreferences prefs = null;
     public static void navigate(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
@@ -42,25 +42,25 @@ public class MainActivity extends AppCompatActivity {
         renderProducts(NEW_ARRIVAL, newArrivalView);
         RecyclerView recommendView = findViewById(R.id.recommendation_view);
         renderProducts(RECOMMENDATION, recommendView);
-        prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-
+        prefs = getSharedPreferences(FIRST_OPEN_KEY, MODE_PRIVATE);
         if (prefs.getBoolean(FIRST_OPEN, true)) {
-            ConversionData.getInstance().getGoogleAdsInfo(this, this::googleCampaignAction);
             prefs.edit().putBoolean(FIRST_OPEN, false).apply();
+            GoogleAdsACService.getInstance()
+                    .getUserAttribution(this, this::googleCampaignAction);
         }
-
     }
 
     private void googleCampaignAction(Object action) {
         try {
             if (action instanceof String) {
+                String productName = (String) action;
                 Product product = new MockInventory()
-                        .getProductByName(String.valueOf(action));
+                        .getProductByName(productName);
                 ProductActivity.navigateToProductPage(MainActivity.this, product.id);
-                Log.d("DEEPLINK", "Showing item from Deep Link");
+                Log.d(TAG, "Init app on item: " + productName);
             }
         } catch (NullPointerException e) {
-            Log.d("DEEPLINK", "Invalid Deep Link or item name not found");
+            Log.d(TAG, "Invalid item name or item name not found");
         }
     }
 
