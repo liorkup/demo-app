@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         if (prefs.getBoolean(FIRST_OPEN, true)) {
             prefs.edit().putBoolean(FIRST_OPEN, false).apply();
             GoogleAdsACService.getInstance()
-                    .getUserAttribution(this, this::googleCampaignAction);
+                    .adToAction(this, this::googleAdToAction);
         }
     }
 
-    private void googleCampaignAction(Object action) {
+    private void googleAdToAction(Object action) {
         try {
             if (action instanceof String) {
                 String productName = (String) action;
