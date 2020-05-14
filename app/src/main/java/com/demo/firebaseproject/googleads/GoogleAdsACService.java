@@ -17,7 +17,7 @@ import java.util.Map;
 
 
 public class GoogleAdsACService {
-    private static final String GOOGLE_ADS_CONVERSION_RESULT = "googleAdsConversionResult";
+    private static final String AD_TO_ACTION = "adToAction";
     private static final String TAG = "GoogleAdsACService";
     private static GoogleAdsACService instance = null;
     private FirebaseFunctions mFunctions;
@@ -47,16 +47,16 @@ public class GoogleAdsACService {
                                     if (e instanceof FirebaseFunctionsException) {
                                         FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
                                         FirebaseFunctionsException.Code code = ffe.getCode();
-                                        Log.w(TAG, "googleAdsConversionResult:onFailure: " +
+                                        Log.w(TAG, "adToAction:onFailure: " +
                                                 "details: "+ ffe.getDetails() + "; code: "+ code);
                                     } else {
-                                        Log.w(TAG, "googleAdsConversionResult:onFailure", e);
+                                        Log.w(TAG, "adToAction:onFailure", e);
                                     }
                                     return;
                                 }
 
                                 Map<String, Object> result = task.getResult();
-                                Log.w(TAG, "googleAdsConversionResult: " + result);
+                                Log.w(TAG, "adToAction: " + result);
 
                                 if(result.get("action") != null) {
                                     callback.commit(result.get("action"));
@@ -79,7 +79,7 @@ public class GoogleAdsACService {
         data.put("lat", lat ? 1 : 0);
         // Call the function and extract the operation from the result
         return mFunctions
-                .getHttpsCallable(GOOGLE_ADS_CONVERSION_RESULT)
+                .getHttpsCallable(AD_TO_ACTION)
                 .call(data)
                 .continueWith(task -> (Map<String, Object>) task.getResult().getData());
 
