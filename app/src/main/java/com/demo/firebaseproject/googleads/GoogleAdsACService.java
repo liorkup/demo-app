@@ -14,6 +14,7 @@ import com.google.firebase.functions.FirebaseFunctionsException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class GoogleAdsACService {
@@ -24,8 +25,6 @@ public class GoogleAdsACService {
 
     private GoogleAdsACService() {
          mFunctions = FirebaseFunctions.getInstance();
-         mFunctions.getHttpsCallable(AD_TO_ACTION)
-            .setTimeout(1, TimeUnit.SECONDS);
     }
 
     public static GoogleAdsACService getInstance() {
@@ -82,6 +81,7 @@ public class GoogleAdsACService {
         // Call the function and extract the operation from the result
         return mFunctions
                 .getHttpsCallable(AD_TO_ACTION)
+                .withTimeout(1, TimeUnit.SECONDS)
                 .call(data)
                 .continueWith(task -> (Map<String, Object>) task.getResult().getData());
 
