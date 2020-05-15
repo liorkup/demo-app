@@ -24,6 +24,8 @@ public class GoogleAdsACService {
 
     private GoogleAdsACService() {
          mFunctions = FirebaseFunctions.getInstance();
+         mFunctions.getHttpsCallable(AD_TO_ACTION)
+            .setTimeout(1, TimeUnit.SECONDS);
     }
 
     public static GoogleAdsACService getInstance() {
