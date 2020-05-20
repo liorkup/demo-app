@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     // Remote Config Parameter Key
     private Context context;
     List<String> PREDICTIONS_KEYS = Arrays.asList(
-            "prediction1", "prediction2", "prediction3" ,"prediction4", "prediction5");
+            "prediction1", "prediction2", "prediction3", "prediction4", "prediction5");
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
@@ -55,26 +55,29 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mFirebaseRemoteConfig.setConfigSettingsAsync(
                 new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(4)
-                .build());
-        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
-        mFirebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener(context, task -> {
-                    if (task.isSuccessful()) {
-                            Boolean result = task.getResult();
-                            Log.d(TAG, "Config params updated: " + result);
-                            for(String rcKey : PREDICTIONS_KEYS) {
-                                String pEvent = mFirebaseRemoteConfig.getString(rcKey);
-                                if(!pEvent.isEmpty()) {
-                                    Log.d(TAG, "Remote Config key: " + rcKey + "; pEvent name: " + pEvent);
-                                    mFirebaseAnalytics.logEvent(pEvent, new Bundle());
+                        .setMinimumFetchIntervalInSeconds(4)
+                        .build()).addOnSuccessListener(context, configTask -> {
+            mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults).addOnSuccessListener(context, defaultTask -> {
+                mFirebaseRemoteConfig.fetchAndActivate()
+                        .addOnCompleteListener(context, task -> {
+                            if (task.isSuccessful()) {
+                                Boolean result = task.getResult();
+                                Log.d(TAG, "Config params updated: " + result);
+                                for (String rcKey : PREDICTIONS_KEYS) {
+                                    String pEvent = mFirebaseRemoteConfig.getString(rcKey);
+                                    if (!pEvent.isEmpty()) {
+                                        Log.d(TAG, "Remote Config key: " + rcKey + "; pEvent name: " + pEvent);
+                                        mFirebaseAnalytics.logEvent(pEvent, new Bundle());
+                                    }
                                 }
+                            } else {
+                                Log.d(TAG, "Remote Config update failed");
                             }
-                    } else {
-                        Log.d(TAG, "Remote Config update failed");
-                    }
+                        });
 
-                });
+            });
+        });
+
     }
 
     @Override
